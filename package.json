@@ -27,6 +27,8 @@
     "@babel/register": "^7.0.0"
   },
   "scripts": {
-    "test": "mocha --require @babel/register --require @babel/polyfill --recursive"
+    "test": "mocha --require @babel/register --require @babel/polyfill --recursive",
+    "start": "nodemon --exec babel-node src/example.js"
+    
   }
 }
