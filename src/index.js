@@ -1,52 +1,70 @@
 const point = [15, 30, 40];
-const input = ['A', 'A', 'A', 'B', 'B', 'B', 'B']; // In game : 40-15
-// const input = ['A', 'B', 'A', 'A', 'A']; // A is winner : Game - 15
-// const input = ['A', 'B', 'B', 'A', 'B', 'B']; // B is winner : Game - 30
-// const input = ['A', 'B', 'B', 'A', 'A', 'B', 'A', 'B']; // In game : 40-40
-// const input = ['A', 'B', 'B', 'A', 'A', 'B', 'A', 'B', 'B'];
-let a = 0;
-let b = 0;
-let deuce = false;
-let winner = false;
 
-for (let i of input) {
+// const input = ['A', 'B', 'B', 'B', 'A', 'B'];
+// const input = ['B', 'B', 'B', 'B', 'A'];
+// const input = ['A', 'A', 'A', 'A', 'B'];
+const input = ['B', 'B', 'B', 'A', 'A','A','B','A','A'];
+
+// const input = ['A', 'B', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'B'];
+
+let pointA = 0, pointB = 0;
+let deuce = false;
+let isWinner = false;
+
+function calculatePoint(input) {
+  for (i of input) {
     if (i === 'A') {
-        a++;
+      pointA++;
     }
     if (i === 'B') {
-        b++;
+      pointB++;
+    }
+    //  ========================================= //
+
+    if (pointA === 4 && pointB <= 3 && !deuce) {
+      let score = point[pointB - 1] === undefined ? 0 : point[pointB - 1];
+      isWinner = true;
+      console.log('A is winner Game - ' + score);
+      break;
+    } else if (pointB === 4 && pointA <= 3 && !deuce) {
+      let score = point[pointA - 1] === undefined ? 0 : point[pointA - 1];
+      isWinner = true;
+      console.log('B is winner Game - ' + score);
+      break;
     }
 
-    if (a >= 4 && b < 3) {
-        console.log('A is winner : Game - ' + point[b - 1]);
-        winner = true;
-        break;
-    } else if (b >= 4 && a < 3) {
-        console.log('B is winner : Game - ' + point[a - 1]);
-        winner = true;
-        break;
-    } else if (a === 3 && b === 3) {
-        deuce = true;
+    if (pointA === 3 && pointB === 3) {
+      deuce = true;
     }
+
 
     if (deuce) {
-        if (a - b === 2) {
-            console.log('A is winner : Game - 40');
-            winner = true;
-            break;
-        } else if (b - a === 2) {
-            console.log('B is winner : Game - 40');
-            winner = true;
-            break;
+      if (pointA - pointB === 2) {
+        console.log('A is winner Game - 40');
+        isWinner = true;
+        break;
+      } else if (pointB - pointA === 2) {
+        console.log('B is winner Game - 40');
+        isWinner = true;
+        break;
+      } else {
+        if (pointA > pointB) {
+          console.log('A  Adv - 40');
+        } else if (pointB > pointA) {
+          console.log('B  Adv - 40');
+        } else {
+          console.log('deuce  40 - 40');
         }
+      }
     }
+  }
+
+  if (!isWinner && !deuce) {
+    let scoreB = point[pointB - 1] === undefined ? 0 : point[pointB - 1];
+    let scoreA = point[pointA - 1] === undefined ? 0 : point[pointA - 1];
+    console.log('in Game A :' + scoreA + ' B: ' + scoreB);
+  }
 }
 
-if (!winner) {
-    console.log('In game : ' + point[a - 1] + '-' + point[b - 1]);
-}
 
-
-
-
-
+calculatePoint(input);
