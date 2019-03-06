@@ -4,8 +4,8 @@ function isWin(playerScore) {
   return false;
 }
 
-async function main(inputArrays) {
-  const player = [... new Set(input)];
+export async function main(inputArrays) {
+  const player = [... new Set(inputArrays)];
   console.log('player', player);
   const playerScore = [];
   playerScore[0] = 0;
@@ -38,9 +38,9 @@ async function main(inputArrays) {
   });
 }
 
-const score = ['0', '15', '30', '40', 'A', 'G'];
-const input = ['a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a'];
-main(input).then(result => {
-  console.log('result', result.status);
-  console.log('rescoresult', result.score.map(s => score[s]));
-});
+// const score = ['0', '15', '30', '40', 'A', 'G'];
+// const input = ['a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a'];
+// main(input).then(result => {
+//   console.log('result', result.status);
+//   console.log('rescoresult', result.score.map(s => score[s]));
+// });
