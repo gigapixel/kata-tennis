@@ -1,70 +1,86 @@
-const point = [15, 30, 40];
+const point = [0, 15, 30, 40];
 
-// const input = ['A', 'B', 'B', 'B', 'A', 'B'];
-// const input = ['B', 'B', 'B', 'B', 'A'];
-// const input = ['A', 'A', 'A', 'A', 'B'];
-const input = ['B', 'B', 'B', 'A', 'A','A','B','A','A'];
-
-// const input = ['A', 'B', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'B'];
+const input = ['A', 'A', 'A', 'A', 'B']; // A is winner : Game - 0
+//const input = ['B', 'B', 'B', 'B', 'B']; // B is winner : Game - 0
+//const input = ['A', 'A', 'B', 'A', 'A']; // A is winner : Game - 15
+//const input = ['A', 'B', 'A', 'B' ]; // In game : 30-30
+//const input = ['A', 'A', 'A', 'B', 'B' ]; // In game : 40-30
+//const input = ['A', 'A', 'A', 'B', 'B', 'B' ]; // Deuce : A 40 - B 40
+//const input = ['A', 'A', 'A', 'B', 'B', 'B', 'B']; // Deuce : A 40 - B Adv
+//const input = ['A', 'A', 'A', 'B', 'B', 'B', 'A' ]; // Deuce : A Adv - B 40
+//const input = ['A', 'A', 'A', 'B', 'B', 'B', 'A', 'B', 'B' ]; // Deuce : B Adv - B 40
+//const input = ['A', 'A', 'A', 'B', 'B', 'B', 'B', 'B' ]; // B is winner : Game - 40
+//const input = ['A', 'A', 'A', 'B', 'B', 'B', 'B', 'A' ]; // 40 : 40
+//const input = ['A', 'A', 'A', 'B', 'B', 'B','A','B','A','B','A','B','A','B','A','B','A','B' ]; // Deuce : A 40 - B 40
 
 let pointA = 0, pointB = 0;
 let deuce = false;
 let isWinner = false;
+let count = 0;
+calculatePoint(input);
 
-function calculatePoint(input) {
-  for (i of input) {
-    if (i === 'A') {
+export function calculatePoint(input) {
+  
+  for (let item of input) {
+
+    count++;
+
+    if (item === 'A') {
       pointA++;
-    }
-    if (i === 'B') {
+    } else if (item === 'B') {
       pointB++;
     }
-    //  ========================================= //
 
-    if (pointA === 4 && pointB <= 3 && !deuce) {
-      let score = point[pointB - 1] === undefined ? 0 : point[pointB - 1];
-      isWinner = true;
-      console.log('A is winner Game - ' + score);
-      break;
-    } else if (pointB === 4 && pointA <= 3 && !deuce) {
-      let score = point[pointA - 1] === undefined ? 0 : point[pointA - 1];
-      isWinner = true;
-      console.log('B is winner Game - ' + score);
-      break;
-    }
 
-    if (pointA === 3 && pointB === 3) {
+    if (pointA === 4 && pointB < 4 && !deuce) {
+      console.log('Game - ' + point[pointB]);
+      isWinner = true;
+      return 'Game - ' + point[pointB];
+      break;
+    } else if (pointB === 4 && pointA < 4 && !deuce) {
+      isWinner = true;
+      console.log(point[pointA] + ' - Game');
+      return point[pointA] + ' - Game';
+      break;
+    } else if (pointA === 3 && pointB === 3 && !deuce) {
       deuce = true;
     }
 
-
     if (deuce) {
       if (pointA - pointB === 2) {
-        console.log('A is winner Game - 40');
         isWinner = true;
+        //console.log('deuce');
+        console.log('Game - 40');
         break;
       } else if (pointB - pointA === 2) {
-        console.log('B is winner Game - 40');
         isWinner = true;
+        //console.log('deuce');
+        console.log('40 - Game');
         break;
       } else {
         if (pointA > pointB) {
-          console.log('A  Adv - 40');
+          //console.log('deuce');
+          if(count === input.length) {
+            console.log('Deuce A - 40');
+          }
         } else if (pointB > pointA) {
-          console.log('B  Adv - 40');
+          if(count === input.length) {
+            console.log('Deuce 40 - A');
+          }
         } else {
-          console.log('deuce  40 - 40');
-        }
+          if(count === input.length) {
+            console.log('40 - 40');
+          }
+        }    
       }
     }
   }
 
   if (!isWinner && !deuce) {
-    let scoreB = point[pointB - 1] === undefined ? 0 : point[pointB - 1];
-    let scoreA = point[pointA - 1] === undefined ? 0 : point[pointA - 1];
-    console.log('in Game A :' + scoreA + ' B: ' + scoreB);
+    let scoreA = point[pointA] === undefined ? 0 : point[pointA];
+    let scoreB = point[pointB] === undefined ? 0 : point[pointB];
+
+    console.log(`In game ${scoreA} - ${scoreB}`);
   }
+
 }
-
-
-calculatePoint(input);

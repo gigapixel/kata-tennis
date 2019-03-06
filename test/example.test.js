@@ -1,13 +1,22 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { alwaysReturn1 } from '../src/example';
+import { calculatePoint } from '../src/index';
 
-describe('example.js', () => {
-  describe('alwaysReturn1()', () => {
-    it('should return 1', () => {
-      let result = alwaysReturn1();
-      expect(result).equal(1);
+
+describe('index.js', () => {
+  describe('calculatePoint()', () => {
+    
+    it('should return Game - 0', () => {
+      const input = ['A', 'A', 'A', 'A', 'B']; // A is winner : Game - 0
+      let result = calculatePoint(input);
+      expect(result).equal('Game - 0');
     });
+
+    // it('should return 2', () => {
+    //   const input = ['B', 'B', 'B', 'B', 'B'];
+    //   let result = calculatePoint(input);
+    //   expect(result).equal('0 - Game');
+    // });
   });
 });
