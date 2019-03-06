@@ -1,53 +1,60 @@
-const scoreBoards = [];
+const scoreBoadrs = [];
 const playerA = [];
 const playerB = [];
 
-function playing(players) {
-  for(let i = 0; i < players.length; i++ ) {
-    let player = players[i];
+export function playing(players) {
+  for (let player of players) {
     let score;
     if (player === 'A') {
-      score = getScores(playerA);
+      score = getScore(playerA);
       playerA.push(score);
-    } else if(player === 'B') {
-      score = getScores(playerB);
+    }
+    if (player === 'B') {
+      score = getScore(playerB);
       playerB.push(score);
     }
 
-    scoreBoards.push({team: player, score});
+    scoreBoadrs.push({
+      name: player
+      score,
+    });
 
-    // set 4
-    // if (i === 3) {
-      let currentA = playerA[playerA.length - 1] || 0;
-      let currentB = playerB[playerB.length - 1] || 0;
-      if (playerA.length === 4) {
-        if (playerA.length - playerB.length >= 2) {
-          console.log('Winner A:', currentA);
-          return;
-        } else if (playerB.length - playerA.length >= 2) {
-          console.log('Winner B:', currentB);
-          return;
-        }
+    let currentA = playerA[playerA.length - 1] || 0;
+    let currentB = playerB[playerB.length - 1] || 0;
+    if (playerA.length > 3 && (playerA.length - playerB.length) >= 2) {
+      return 'A';
+    } else if (playerB.length > 3 && (playerB.length - playerA.length) >= 2) {
+      return 'B';
+    } else {
+      if (currentA === 'A' && currentB === 'A') {
+        playerA.splice(playerA.length - 1, 1);
+        playerB.splice(playerB.length - 1, 1);
       }
-      console.log(`In Game => A:${currentA || 0} - B: ${currentB || 0}`);
-    // }
+      // console.log(`Ingame : ${currentA} | ${currentB}`, );
+    }
   }
 
-  console.log('—-> scoreBoards', scoreBoards);
+  return 'Ingame';
+  // console.log('playerA', playerA);
+  // console.log('playerB', playerB);
+  // console.log(scoreBoadrs);
 }
 
-function getScores(player) {
-  let length = player.length;
-  switch (length) {
+export function getScore(score) {
+  switch (score.length) {
     case 0:
       return 15;
     case 1:
-    return 30;
+      return 30;
     case 2:
-    return 40;
+      return 40;
+    case 3:
+      return 'A';
     default:
-    return 'A';
+      return 'G';
   }
 }
 
-playing(['A', 'A', 'B', 'B', 'A', 'B', 'B', 'A']);
+
+// const res = playing(['A', 'B', 'A', 'B', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B']); 
+// console.log('res', res);
