@@ -1,55 +1,46 @@
-export function mainReturn(){
-  const input = ['A','B','A','B','A','B','A','A'];
-  const playercount = input.filter((item, index) => input.indexOf(item) == index);
-  if( playercount.length > 2){
-    console.log('case player > 2');
-  }else{
-    const playerName1 = playercount[0];
-    const playerName2 = playercount[1];
-    let player1 = 0;
-    let player2 = 0;
-    input.some(element => {
-      if(element === playerName1){
-        player1 += 1;
-      }else{
-        player2 += 1;
+function isWin(playerScore) {
+  if (playerScore[playerIndex] === 4 && playerScore[otherPlayerIndex] <= 3) return true;
+  if (playerScore[playerIndex] === 5 && playerScore[otherPlayerIndex] === 4) return true;
+  return false;
+}
+
+async function main(inputArrays) {
+  const player = [... new Set(input)];
+  console.log('player', player);
+  const playerScore = [];
+  playerScore[0] = 0;
+  playerScore[1] = 0;
+
+  return new Promise((resolve) => {
+    inputArrays.some(input => {
+      const playerIndex = (input === player[0]) ? 0 : 1;
+      const otherPlayerIndex = (playerIndex === 1) ? 0 : 1;
+      playerScore[playerIndex]++;
+
+      if (playerScore[playerIndex] === 4 && playerScore[otherPlayerIndex] < 3) {
+        console.log('A');
+        resolve({ status: `${player[playerIndex]} WIN`, score: playerScore });
       }
-      if(player1 === 3 && player2 === 3){
-        player1  -= 1;
-        player2  -= 1;
+      if (playerScore[playerIndex] === 5 && playerScore[otherPlayerIndex] === 3) {
+        console.log('B');
+        resolve({ status: `${player[playerIndex]} WIN`, score: playerScore });
       }
-      if(player1 >= 4 || player2 >= 4){
-        console.log(`Winner is ${player1 >= 4 ? playerName1 : playerName2}`);
-        return true;
-      }else{
-        console.log(`InGame : ${checkPoint(player1)} - ${checkPoint(player2)}`);
+      if (playerScore[playerIndex] === 4 && playerScore[otherPlayerIndex] === 4) {
+        playerScore[playerIndex]--;
+        playerScore[otherPlayerIndex]--;
       }
     });
-  }
+    if (playerScore[0] >= 3 && playerScore[1] >= 3) {
+      resolve({ status: 'DUCE', score: playerScore });
+    } else {
+      resolve({ status: 'IN GAME', score: playerScore });
+    }
+  });
 }
 
-function checkPoint(input){
-  let result;
-  switch(input){
-    case 0: result = 0;
-    break;
-    case 1: result = 15;
-    break;
-    case 2: result = 30;
-    break;
-    case 3: result = 40;
-    break;
-    default: result = 'Winner';
-    break;
-  }
-  return result;
-}
-
-
-// input [A,B,A,A,A]
-// output winner is A : Game - 15
-
-// input [A,B,A]
-// InGame : 30 - 15
-
-console.log(mainReturn());
+const score = ['0', '15', '30', '40', 'A', 'G'];
+const input = ['a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a'];
+main(input).then(result => {
+  console.log('result', result.status);
+  console.log('rescoresult', result.score.map(s => score[s]));
+});
