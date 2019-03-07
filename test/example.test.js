@@ -5,6 +5,21 @@ import { main } from '../src/example';
 
 describe('example.js', () => {
   describe('main()', () => {
+    it('START', async () => {
+      let input = [];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 0 - 0');
+    });
+    it('INGAME 15 : 0', async () => {
+      let input = ['A'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 15 - 0');
+    });
+    it('INGAME 0 : 15', async () => {
+      let input = ['B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 0 - 15');
+    });
     it('IN GAME 15 : 15', async () => {
       let input = ['A', 'B'];
       let result = await main(input);
