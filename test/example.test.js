@@ -5,25 +5,75 @@ import { main } from '../src/example';
 
 describe('example.js', () => {
   describe('main()', () => {
-    it('A WINEER', async () => {
-      let input = ['A','B','A','B','A','B','A','A'];
+    it('IN GAME 15 : 15', async () => {
+      let input = ['A', 'B'];
       let result = await main(input);
-      expect(result.status).equal('A WIN');
+      expect(result.status).equal('IN GAME : 15 - 15');
     });
-    it('B WINNER', async () => {
-      let input = ['A','B','A','B','B','B','B','A'];
+    it('IN GAME 30 : 15', async () => {
+      let input = ['A', 'B', 'A'];
       let result = await main(input);
-      expect(result.status).equal('B WIN');
+      expect(result.status).equal('IN GAME : 30 - 15');
     });
-    it('IN GAME', async () => {
-      let input = ['A','B','A','B'];
-      let result = await  main(input);
-      expect(result.status).equal('');
+    it('IN GAME 15 : 30', async () => {
+      let input = ['A', 'B', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 15 - 30');
+    });
+    it('IN GAME 30 : 30', async () => {
+      let input = ['A', 'B', 'A', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 30 - 30');
+    });
+    it('IN GAME 40 : 30', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 40 - 30');
+    });
+    it('IN GAME 30 : 40', async () => {
+      let input = ['A', 'B', 'A', 'B', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 30 - 40');
+    });
+    it('IN GAME 40 : 40', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 40 - 40');
+    });
+    it('A WINNER (NORMAL)', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'A'];
+      let result = await main(input);
+      expect(result.status).equal('WINNER IS A : GAME - 30');
+    });
+    it('B WINNER (NORMAL)', async () => {
+      let input = ['A', 'B', 'A', 'B', 'B', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('WINNER IS B : 30 - GAME');
+    });
+    it('A ADVANCE', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'B', 'A'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : A - 40');
+    });
+    it('B ADVANCE', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'B', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('IN GAME : 40 - A');
+    });
+    it('A WINNER (DUCE)', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'A'];
+      let result = await main(input);
+      expect(result.status).equal('WINNER IS A : GAME - 40');
+    });
+    it('B WINNER (DUCE)', async () => {
+      let input = ['A', 'B', 'A', 'B', 'A', 'B', 'B', 'B'];
+      let result = await main(input);
+      expect(result.status).equal('WINNER IS B : 40 - GAME');
     });
     it('DUCE', async () => {
-      let input = ['A','B','A','B','A','B','B','A'];
+      let input = ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'B'];
       let result = await main(input);
-      expect(result.status).equal('DUCE');
+      expect(result.status).equal('IN GAME : 40 - 40');
     });
   });
 });
