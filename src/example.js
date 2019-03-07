@@ -20,56 +20,69 @@ export function player(input) {
   let result = 'in game';
 
   for (let i of input) {
-    if (i === playerA) scoreA++;
-    if (i === playerB) scoreB++;
-
-    if (due) {
-      if (scoreA - scoreB === 2) {
-        result = score(due, scoreA, scoreB);
-        break;
-      }
-      if (scoreB - scoreA === 2) {
-        result = score(due, scoreA, scoreB);
-        break;
-      }
-    } else {
-      if (scoreA === 4) {
-        if (scoreA >= 2) {
-          result = score(due, scoreA, scoreB);
-          break;
-        }
-      }
-
-      if (scoreB === 4) {
-        if (scoreB >= 2) {
-          result = score(due, scoreA, scoreB);
-          break;
-        }
-      }
+    if (i === playerA) {
+      scoreA++;
     }
-
-    if (scoreA === 3 && scoreB === 3) {
+    if (i === playerB) {
+      scoreB++;
+    }
+    
+    if (scoreA === scoreB && scoreA === 3) {
       due = true;
     }
+
+    if (due) {
+
+      if ((scoreA - scoreB) >= 2) {
+        result = score(due, scoreA, scoreB);
+        break;
+      }
+      if ((scoreB - scoreA) >= 2) {
+        result = score(due, scoreA, scoreB);
+        break;
+      }
+
+    } else {
+
+      if (scoreA === 4 && (scoreA - scoreB) >= 2) {
+        result = score(due, scoreA, scoreB);
+        break;
+      }
+
+      if (scoreB === 4 && (scoreB - scoreA) >= 2) {
+        result = score(due, scoreA, scoreB);
+        break;
+      }
+      if (scoreB === 4 && (scoreB - scoreA) >= 2) {
+        result = score(due, scoreA, scoreB);
+        break;
+      }
+
+    }
   }
+
+  
   return score(due, scoreA, scoreB);
 }
 function score(due, scoreA, scoreB) {
   let result;
   if (due) {
-    if (scoreA === scoreB) { result = 'in game score A : 40 , score B : 40'; }
-    if ((scoreA - scoreB) === 1) { result = 'in game score A : A , score B : 40'; }
-    if ((scoreA - scoreB) === 2) { result = 'A Win , score B : 40'; }
-    if ((scoreB - scoreA) === 1) { result = 'in game score A : 40 , score B : A'; }
-    if ((scoreB - scoreA) === 2) { result = 'B Win score A : 40'; }
+    if (scoreA === scoreB) { result = 'In Game : 40 - 40'; }
+    if ((scoreA - scoreB) === 1) { result = 'In Game : A - 40'; }
+    if ((scoreA - scoreB) === 2) { result = 'Winner is A : Game - 40'; }
+    if ((scoreB - scoreA) === 1) { result = 'In Game : 40 - A'; }
+    if ((scoreB - scoreA) === 2) { result = 'Winner is B : 40 - Game'; }
 
   } else {
-    if (scoreA - scoreB >= 2) result = 'A win : B score ' + scoreArray[scoreB];
-    if (scoreB - scoreA >= 2) result = 'B win : A score ' + scoreArray[scoreA];
+
+    if (scoreA === 4 && (scoreA - scoreB) >= 2) result = 'Winner is A : Game - ' + scoreArray[scoreB];
+    if (scoreB === 4 && (scoreB - scoreA) >= 2) result = 'Winner is B : ' + scoreArray[scoreA] + ' - Game';
+    if (scoreA < 4 && scoreB < 4) result = 'In Game : ' + scoreArray[scoreA] + ' - ' + scoreArray[scoreB];
+
   }
   return result;
 }
 
-console.log(player(input1));
-console.log(player(input2));
-console.log(player(input3));
+// console.log(player(input1));
+// console.log(player(input2));
+// console.log(player(input3));
