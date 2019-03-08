@@ -26,12 +26,10 @@ export function playing(players) {
         playerA.splice(playerA.length - 1, 1);
         playerB.splice(playerB.length - 1, 1);
       }
-      return `Ingame: ${currentA} - ${currentB}`;
-      // console.log(`Ingame : ${currentA} | ${currentB}`, );
     }
   }
 
-  return 'Ingame';
+  return `Ingame: ${(playerA[playerA.length - 1] || 0)} - ${(playerB[playerB.length - 1] || 0)}`;
 }
 
 export function getScore(score) {
