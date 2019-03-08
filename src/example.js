@@ -1,51 +1,49 @@
-function showScore(playerScore, isWin) {
-  const score = ['0', '15', '30', '40', 'A', 'GAME'];
-  playerScore[0] = (playerScore[0] === 4 && isWin) ? 5 : playerScore[0];
-  playerScore[1] = (playerScore[1] === 4 && isWin) ? 5 : playerScore[1];
-  return `${score[playerScore[0]]} - ${score[playerScore[1]]}`;
-}
-
-export async function main(inputArrays) {
-
-  const player = ['A', 'B'];
-  // console.log('player', player);
-  // let isDuce = false;
-  const playerScore = [];
+export function mainFunctiuon(arr){
+  const player = [...new Set(arr)];
+  const scores = ['0','15','30','40','GAME','GAME'];
+  const scores2 = ['0','15','30','40','A'];
+  let duce = 0;
+  let result = '';
+  let winner;
+  let playerScore =[];
   playerScore[0] = 0;
   playerScore[1] = 0;
 
-  return new Promise((resolve) => {
-    inputArrays.some(input => {
-      const playerIndex = (input === 'A') ? 0 : 1;
-      const otherPlayerIndex = (playerIndex === 1) ? 0 : 1;
-      playerScore[playerIndex]++;
+  arr.some((value)=>{
+    let playerIndex, otherPlayerIndex;
+    playerIndex = (value === player[0]) ? 0 : 1;
+    otherPlayerIndex = (value === player[0]) ? 1 : 0;
+    playerScore[playerIndex]++;
 
-      if (playerScore[playerIndex] === 4 && playerScore[otherPlayerIndex] < 3) {
-        // normal win
-        resolve({ status: `WINNER IS ${player[playerIndex]} : ${showScore(playerScore, true)}`, score: playerScore });
-      }
-      if (playerScore[playerIndex] === 5 && playerScore[otherPlayerIndex] === 3) {
-        //duce win
-        resolve({ status: `WINNER IS ${player[playerIndex]} : ${showScore(playerScore, true)}`, score: playerScore });
-      }
-      if (playerScore[playerIndex] === 4 && playerScore[otherPlayerIndex] === 4) {
-        playerScore[playerIndex]--;
-        playerScore[otherPlayerIndex]--;
-        // isDuce = true;
-      }
-    });
-    resolve({ status: `IN GAME : ${showScore(playerScore)}`, score: playerScore });
-    // if (playerScore[0] >= 3 && playerScore[1] >= 3 && isDuce) {
-    //   resolve({ status: `IN GAME : ${showScore(playerScore)}`, score: playerScore });
-    // } else {
-    //   resolve({ status: `IN GAME : ${showScore(playerScore)}`, score: playerScore });
-    // }
+    if(playerScore[playerIndex]===4 && playerScore[otherPlayerIndex]<3){
+      result = `WINNER IS ${player[playerIndex]} : ${scores[playerScore[0]]} - ${scores[playerScore[1]]}`;
+      winner = true;
+      return result;
+    }else if(playerScore[playerIndex]===5 && playerScore[otherPlayerIndex]===3){
+      result = `WINNER IS ${player[playerIndex]} : ${scores[playerScore[0]]} - ${scores[playerScore[1]]}`;
+      winner = true;
+      return result;
+    }
+
+    if(playerScore[playerIndex]===4 && playerScore[otherPlayerIndex]===4){
+      playerScore[otherPlayerIndex]--;
+      playerScore[playerIndex]--;
+    }
+    if(playerScore[playerIndex]===3 && playerScore[otherPlayerIndex]===3) duce++;
+
   });
+  if(!winner){
+    result = `IN GAME : ${scores2[playerScore[0]]} - ${scores2[playerScore[1]]}`;
+    if(playerScore[0]===3 && playerScore[1]===3){
+      if(duce===1){
+        result = `IN GAME : ${scores2[playerScore[0]]} - ${scores2[playerScore[1]]} (before duce)`;
+      }else if(duce!==0 && duce > 1){
+        result = `IN GAME : ${scores2[playerScore[0]]} - ${scores2[playerScore[1]]} (after duce)`;
+      }
+    }
+  } 
+  return result;
 }
 
 
-const input = ['A', 'B', 'A', 'B'];
-main(input).then(result => {
-  console.log('result', result.status);
-  // console.log('rescoresult', result.score.map(s => score[s]));
-});
+// console.log(mainFunctiuon(['A', 'B']))
